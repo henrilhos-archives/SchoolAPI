@@ -1,59 +1,54 @@
-import { Request, Response } from "express";
-import * as mongoose from "mongoose";
-import { StudentSchema } from "../models/student.model";
+import { Request, Response } from 'express'
+import * as mongoose from 'mongoose'
+import { StudentSchema } from '../models/student.model'
 
-const Student = mongoose.model("Student", StudentSchema);
+const Student = mongoose.model('Student', StudentSchema)
 
 export class StudentController {
-  public addNewStudent(req: Request, res: Response) {
-    const newStudent = new Student(req.body);
+  public addNewStudent(req: Request, res: Response): void {
+    const newStudent = new Student(req.body)
 
-    newStudent.save((err, student) => {
+    newStudent.save((err, student): void => {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.json(student);
-    });
+      res.json(student)
+    })
   }
 
-  public getStudents(req: Request, res: Response) {
-    Student.find({}, (err, students) => {
+  public getStudents(req: Request, res: Response): void {
+    Student.find({}, (err, students): void => {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.json(students);
-    });
+      res.json(students)
+    })
   }
 
-  public getStudentWithId(req: Request, res: Response) {
-    Student.findById(req.params.studentId, (err, student) => {
+  public getStudentWithId(req: Request, res: Response): void {
+    Student.findById(req.params.studentId, (err, student): void => {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.json(student);
-    });
+      res.json(student)
+    })
   }
 
-  public updateContact(req: Request, res: Response) {
-    Student.findOneAndUpdate(
-      { _id: req.params.studentId },
-      req.body,
-      { new: true },
-      (err, student) => {
-        if (err) {
-          res.send(err);
-        }
-        res.json(student);
-      },
-    );
+  public updateContact(req: Request, res: Response): void {
+    Student.findOneAndUpdate({ _id: req.params.studentId }, req.body, { new: true }, (err, student): void => {
+      if (err) {
+        res.send(err)
+      }
+      res.json(student)
+    })
   }
 
-  public deleteStudent(req: Request, res: Response) {
-    Student.remove({ _id: req.params.studentId }, (err, student) => {
+  public deleteStudent(req: Request, res: Response): void {
+    Student.remove({ _id: req.params.studentId }, (err): void => {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.json({ message: "Successfully deleted contact!" });
-    });
+      res.json({ message: 'Successfully deleted contact!' })
+    })
   }
 }
