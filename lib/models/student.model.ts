@@ -31,5 +31,19 @@ export const StudentSchema = new Schema({
     last_name: { type: String },
     middle_name: { type: String },
   },
+  school_subjects: [
+    {
+      grades: [
+        {
+          description: { type: String },
+          grade: { type: Number },
+          weight: { type: Number },
+        },
+      ],
+      semester: { type: Number },
+      teacher: { type: String },
+      title: { type: String },
+    },
+  ],
   student_username: { type: String },
 });
