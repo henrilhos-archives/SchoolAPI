@@ -9,7 +9,7 @@ Para rodar o projeto localmente é necessário o [Node.js](https://nodejs.org/en
 Após isso é necessário definir as váriaveis de ambiente:
 
 ```bash
-export MONGODB_URI="mongodb://localhost:27017/hashtag_tracking" # URL Padrão
+export MONGODB_URI="mongodb://localhost:27017/school" # URL Padrão
 ```
 
 ## Build setup
@@ -24,4 +24,3 @@ $ yarn dev
 # build for production and launch server
 $ yarn prod
 ```
-
