@@ -1,4 +1,4 @@
-# School API
+# School API [![Build Status](https://travis-ci.com/castilh0s/School-API.svg?branch=master)](https://travis-ci.com/castilh0s/School-API)
 
 > Projeto desenvolvido para a matéria de Banco de Dados II
 
