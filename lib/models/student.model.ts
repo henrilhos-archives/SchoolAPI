@@ -14,22 +14,16 @@ export const StudentSchema = new Schema({
       street: { type: String },
     },
   ],
-  alerts: [
-    {
-      description: { type: String },
-      expiresDate: { type: String },
-      type: { type: String },
-    },
-  ],
+  currentSemester: { type: Number },
   demographics: {
     birthDate: { type: Date },
     gender: { type: String },
     projectedGraduationYear: { type: Number },
   },
+  email: { type: String },
   name: {
     firstName: { type: String },
     lastName: { type: String },
-    middleName: { type: String },
   },
   schoolSubjects: [
     {
@@ -37,7 +31,6 @@ export const StudentSchema = new Schema({
         {
           description: { type: String },
           grade: { type: Number },
-          weight: { type: Number },
         },
       ],
       semester: { type: Number },
