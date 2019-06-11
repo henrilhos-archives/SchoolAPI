@@ -9,6 +9,10 @@ export class StudentRoutes {
       .get(this.studentController.getStudents)
       .post(this.studentController.addNewStudent)
 
+    app.route('/student/semester/:semester').get(this.studentController.getStudentsBySemester)
+
+    app.route('/student/in-exams').get(this.studentController.getStudentsInExam)
+
     app
       .route('/student/:studentId')
       .get(this.studentController.getStudentWithId)

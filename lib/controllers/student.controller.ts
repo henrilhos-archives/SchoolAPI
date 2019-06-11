@@ -25,6 +25,25 @@ export class StudentController {
     })
   }
 
+  public getStudentsBySemester(req: Request, res: Response): void {
+    Student.find({ currentSemester: req.params.semester }, (err, students): void => {
+      if (err) {
+        res.send(err)
+      }
+      res.json(students)
+    })
+  }
+
+  public getStudentsInExam(req: Request, res: Response): void {
+    let aggregationParams = [{ $match: { currentSemester: 3 } }]
+    Student.aggregate(aggregationParams, (err, student): void => {
+      if (err) {
+        res.send(err)
+      }
+      res.json(student)
+    })
+  }
+
   public getStudentWithId(req: Request, res: Response): void {
     Student.findById(req.params.studentId, (err, student): void => {
       if (err) {
