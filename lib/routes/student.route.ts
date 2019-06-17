@@ -11,7 +11,7 @@ export class StudentRoutes {
 
     app.route('/student/semester/:semester').get(this.studentController.getStudentsBySemester)
 
-    app.route('/student/in-exams').get(this.studentController.getStudentsInExam)
+    app.route('/student/failed').get(this.studentController.getFailedStudents)
 
     app
       .route('/student/:studentId')

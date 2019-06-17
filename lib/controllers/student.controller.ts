@@ -34,13 +34,88 @@ export class StudentController {
     })
   }
 
-  public getStudentsInExam(req: Request, res: Response): void {
-    let aggregationParams = [{ $match: { currentSemester: 3 } }]
-    Student.aggregate(aggregationParams, (err, student): void => {
+  public getFailedStudents(req: Request, res: Response): void {
+    let aggregationParams = [
+      {
+        $project: {
+          name: 1,
+          demographics: 1,
+          addresses: 1,
+          studentUsername: 1,
+          email: 1,
+          currentSemester: 1,
+          schoolSubjects: {
+            $filter: {
+              input: '$schoolSubjects',
+              as: 'schoolSubject',
+              cond: { $eq: ['$$schoolSubject.semester', '$currentSemester'] },
+            },
+          },
+        },
+      },
+      {
+        $unwind: {
+          path: '$schoolSubjects',
+          includeArrayIndex: 'arrayIndex',
+          preserveNullAndEmptyArrays: false,
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          demographics: 1,
+          addresses: 1,
+          studentUsername: 1,
+          email: 1,
+          currentSemester: 1,
+          schoolSubject: {
+            title: '$schoolSubjects.title',
+            semester: '$schoolSubjects.semester',
+            teacher: '$schoolSubjects.teacher',
+            grades: '$schoolSubjects.grades',
+            average: { $avg: '$schoolSubjects.grades.grade' },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            _id: '$_id',
+            name: '$name',
+            demographics: '$demographics',
+            addresses: '$addresses',
+            studentUsername: '$studentUsername',
+            email: '$email',
+            currentSemester: '$currentSemester',
+          },
+          schoolSubjects: { $push: '$schoolSubject' },
+        },
+      },
+      {
+        $project: {
+          _id: '$_id._id',
+          name: '$_id.name',
+          demographics: '$_id.demographics',
+          addresses: '$_id.addresses',
+          studentUsername: '$_id.studentUsername',
+          email: '$_id.email',
+          currentSemester: '$_id.currentSemester',
+          schoolSubjects: {
+            $filter: {
+              input: '$schoolSubjects',
+              as: 'schoolSubject',
+              cond: { $lt: ['$$schoolSubject.average', 6] },
+            },
+          },
+        },
+      },
+    ]
+
+    Student.aggregate(aggregationParams, (err, students): void => {
       if (err) {
         res.send(err)
       }
-      res.json(student)
+      res.json(students)
     })
   }
 
